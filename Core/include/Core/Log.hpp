@@ -7,6 +7,7 @@ namespace Renderer {
 
     class Log {
     public:
+        Log() = delete;
         static void Init();
         [[nodiscard]] static std::shared_ptr<spdlog::logger>& GetLogger() noexcept {
             return m_Logger;
