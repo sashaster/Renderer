@@ -28,6 +28,13 @@ namespace Renderer::Config {
     #define BREAKPOINT()
 #endif
 
+
+#define DELETE_COPY_MOVE(type) \
+    type(const type&) = delete; \
+    type& operator=(const type&) = delete; \
+    type(type&&) = delete; \
+    type& operator=(type&&) = delete;
+
 #ifndef NDEBUG
     #define ASSERT(condition, ...) { if (!(condition)) { LOG_FATAL(__VA_ARGS__); BREAKPOINT(); } }
 #else

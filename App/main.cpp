@@ -2,9 +2,15 @@
 
 
 int main() {
-    Renderer::Application app;
-    app.Run();
+    try {
+        Renderer::Log::Init();
+        Renderer::Application app;
+        app.Run();
+
+    }catch (...) {
+        return -1;
+    }
+
     return 0;
 }
-
 

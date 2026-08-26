@@ -1,23 +1,35 @@
 #pragma once
+#define GLFW_INCLUDE_NONE
 
-#include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <glad/gl.h>
 #include <string_view>
 
 #include "Core/Config.hpp"
+#include "Core/Events/Event.hpp"
 
 namespace Renderer {
 
     class Window {
+        using EventCallbackFn = std::function<void(Event&)>;
+        using WindowHandle = std::unique_ptr<GLFWwindow, decltype([](GLFWwindow* window) {
+            if (window) {
+                glfwDestroyWindow(window);
+                window = nullptr;
+                LOG_INFO("Window destroyed!");
+            }
+        })>;
     public:
         explicit Window(std::string_view title = Config::WindowTitle,
                 int width = Config::WindowWidth,
                 int height = Config::WindowHeight);
 
-        ~Window();
-
         [[nodiscard]] int GetWidth() const noexcept {
             return m_Data.width;
+        }
+
+        void SetEventCallback(const EventCallbackFn& callback) noexcept {
+            m_Data.eventCallback = callback;
         }
 
         [[nodiscard]] int GetHeight() const noexcept {
@@ -44,8 +56,10 @@ namespace Renderer {
             int width;
             int height;
             bool vsync;
+
+            EventCallbackFn eventCallback;
         } m_Data;
 
-        GLFWwindow* m_Window;
+        WindowHandle m_Window;
     };
 }
