@@ -1,5 +1,4 @@
 #pragma once
-#define GLFW_INCLUDE_NONE
 
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
@@ -20,6 +19,7 @@ namespace Renderer {
             }
         })>;
     public:
+
         explicit Window(std::string_view title = Config::WindowTitle,
                 int width = Config::WindowWidth,
                 int height = Config::WindowHeight);
@@ -38,6 +38,10 @@ namespace Renderer {
 
         [[nodiscard]] bool IsVsync() const noexcept {
             return m_Data.vsync;
+        }
+
+        [[nodiscard]] GLFWwindow* GetHandle() const noexcept {
+            return m_Window.get();
         }
 
         void SetVsync(bool enabled);

@@ -1,13 +1,26 @@
 #include "Core/Application.hpp"
+#include "Core/Input.hpp"
+
 
 namespace Renderer {
 
     Application::Application() {
+        ASSERT(!s_Instance, "Application already initialized!")
         LOG_INFO("Application started");
         m_Window = std::make_unique<Window>();
         m_Window->SetEventCallback([this](Event& event) {
             OnEvent(event);
         });
+        s_Instance = this;
+    }
+
+    Application::~Application() {
+        LOG_INFO("Application stopped");
+        s_Instance = nullptr;
+    }
+
+    Application& Application::Get() noexcept{
+        return *s_Instance;
     }
 
     Application::GLFWContext::GLFWContext() {
@@ -21,9 +34,8 @@ namespace Renderer {
 
     Application::GLFWContext::~GLFWContext() {
         glfwTerminate();
-        LOG_INFO("Application closed");
+        LOG_DEBUG("Shutting down GLFW");
     }
-
 
     void Application::Run() {
         while (m_Running) {
@@ -43,6 +55,6 @@ namespace Renderer {
         dispatcher.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& e) {
             return OnWindowClose(e);
         });
-        LOG_TRACE("{0}", event.ToString());
+        // LOG_TRACE("{0}", event.ToString());
     }
 }

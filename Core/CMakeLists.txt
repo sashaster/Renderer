@@ -33,3 +33,4 @@ target_link_libraries(core PUBLIC
     glfw
     OpenGL::GL
 )
+target_compile_definitions(core PUBLIC GLFW_INCLUDE_NONE)

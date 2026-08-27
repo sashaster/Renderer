@@ -10,10 +10,10 @@ namespace Renderer {
         Log() = delete;
         static void Init();
         [[nodiscard]] static std::shared_ptr<spdlog::logger>& GetLogger() noexcept {
-            return m_Logger;
+            return s_Logger;
         }
     private:
-        static inline std::shared_ptr<spdlog::logger> m_Logger;
+        static inline std::shared_ptr<spdlog::logger> s_Logger;
     };
 }
 

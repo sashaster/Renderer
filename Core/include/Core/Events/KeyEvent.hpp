@@ -11,24 +11,24 @@ namespace Renderer {
         [[nodiscard]] static std::string_view KeyName(int key) noexcept;
 
         [[nodiscard]] int GetKey() const noexcept {
-            return m_Key;
+            return m_Keycode;
         }
 
     protected:
-        explicit KeyEvent(const int key) : m_Key(key) {}
-        int m_Key;
+        explicit KeyEvent(const int keycode) : m_Keycode(keycode) {}
+        int m_Keycode;
     };
 
     class KeyPressedEvent final: public KeyEvent {
     public:
-        KeyPressedEvent(const int key, const bool repeated) : KeyEvent(key), m_Repeated(repeated) {}
+        KeyPressedEvent(const int keycode, const bool repeated) : KeyEvent(keycode), m_Repeated(repeated) {}
 
         [[nodiscard]] bool IsRepeated() const noexcept {
             return m_Repeated;
         }
 
         [[nodiscard]] std::string ToString() const override {
-            return std::format("{0} [{1}] ({2})", GetName(), KeyName(m_Key), m_Repeated ? "repeated" : "not repeated");
+            return std::format("{0} [{1}] ({2})", GetName(), KeyName(m_Keycode), m_Repeated ? "repeated" : "not repeated");
         }
 
         EVENT_TYPE(KeyPressed)
@@ -38,7 +38,7 @@ namespace Renderer {
 
     class KeyReleasedEvent final: public KeyEvent {
     public:
-        explicit KeyReleasedEvent(const int key) : KeyEvent(key) {}
+        explicit KeyReleasedEvent(const int keycode) : KeyEvent(keycode) {}
         EVENT_TYPE(KeyReleased)
     };
 }

@@ -6,9 +6,9 @@
 namespace Renderer {
 
     void Log::Init() {
-        m_Logger = spdlog::stdout_color_mt("RENDERER");
-        m_Logger->set_level(Config::LogLevel);
-        m_Logger->set_pattern("%^%Y-%m-%d %T [%l] %n: %v%$");
+        s_Logger = spdlog::stdout_color_mt("RENDERER");
+        s_Logger->set_level(Config::LogLevel);
+        s_Logger->set_pattern("%^%Y-%m-%d %T [%l] %n: %v%$");
         LOG_DEBUG("Logger initialized!");
     }
 }
