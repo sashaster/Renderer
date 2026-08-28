@@ -1,5 +1,4 @@
 #include "Core/Application.hpp"
-#include "Core/Input.hpp"
 
 
 namespace Renderer {
@@ -39,8 +38,6 @@ namespace Renderer {
 
     void Application::Run() {
         while (m_Running) {
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
             m_Window->OnUpdate();
         }
     }
@@ -55,6 +52,6 @@ namespace Renderer {
         dispatcher.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& e) {
             return OnWindowClose(e);
         });
-        // LOG_TRACE("{0}", event.ToString());
+        LOG_TRACE("{0}", event.ToString());
     }
 }

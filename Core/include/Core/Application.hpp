@@ -34,6 +34,5 @@ namespace Renderer {
         bool m_Running = true;
         std::unique_ptr<Window> m_Window;
         static inline Application* s_Instance = nullptr;
-
     };
 }

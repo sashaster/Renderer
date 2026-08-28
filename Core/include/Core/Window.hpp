@@ -1,11 +1,11 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <glad/gl.h>
 #include <string_view>
 
 #include "Core/Config.hpp"
 #include "Core/Events/Event.hpp"
+#include "Core/OpenGLContext.hpp"
 
 namespace Renderer {
 
@@ -41,7 +41,7 @@ namespace Renderer {
         }
 
         [[nodiscard]] GLFWwindow* GetHandle() const noexcept {
-            return m_Window.get();
+            return m_Handle.get();
         }
 
         void SetVsync(bool enabled);
@@ -64,6 +64,7 @@ namespace Renderer {
             EventCallbackFn eventCallback;
         } m_Data;
 
-        WindowHandle m_Window;
+        WindowHandle m_Handle;
+        std::unique_ptr<OpenGLContext> m_Context;
     };
 }

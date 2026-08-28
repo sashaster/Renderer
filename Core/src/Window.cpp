@@ -16,8 +16,10 @@ namespace Renderer {
     }
 
     void Window::OnUpdate() const {
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
-        glfwSwapBuffers(m_Window.get());
+        m_Context->SwapBuffers();
     }
 
     void Window::SetVsync(const bool enabled) {
@@ -27,19 +29,15 @@ namespace Renderer {
 
     void Window::Init() {
         LOG_INFO("Creating window: {0} {1}x{2}", m_Data.title, m_Data.width, m_Data.height);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        m_Window.reset(glfwCreateWindow(m_Data.width, m_Data.height, m_Data.title.data(), nullptr, nullptr));
-        glfwMakeContextCurrent(m_Window.get());
-        LOG_DEBUG("Loading GLAD...");
-        ASSERT(gladLoadGL(glfwGetProcAddress), "Failed to load GLAD!");
-        LOG_DEBUG("GLAD initialized!");
-        glfwSetWindowUserPointer(m_Window.get(), &m_Data);
+        OpenGLContext::SetWindowHints();
+        m_Handle.reset(glfwCreateWindow(m_Data.width, m_Data.height, m_Data.title.data(), nullptr, nullptr));
+        ASSERT(m_Handle, "Failed to create GLFW window!");
+        m_Context = std::make_unique<OpenGLContext>(m_Handle.get());
+        m_Context->Init();
+        glfwSetWindowUserPointer(m_Handle.get(), &m_Data);
         SetVsync(true);
 
-        glfwSetWindowSizeCallback(m_Window.get(), [](GLFWwindow* window, const int width, const int height) {
+        glfwSetWindowSizeCallback(m_Handle.get(), [](GLFWwindow* window, const int width, const int height) {
             auto& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             data.width = width;
             data.height = height;
@@ -47,13 +45,13 @@ namespace Renderer {
             data.eventCallback(event);
         });
 
-        glfwSetWindowCloseCallback(m_Window.get(), [](GLFWwindow* window) {
+        glfwSetWindowCloseCallback(m_Handle.get(), [](GLFWwindow* window) {
             const auto& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             WindowCloseEvent event;
             data.eventCallback(event);
         });
 
-        glfwSetKeyCallback(m_Window.get(), [](GLFWwindow* window, const int key, const int scancode, const int action, const int mods) {
+        glfwSetKeyCallback(m_Handle.get(), [](GLFWwindow* window, const int key, const int scancode, const int action, const int mods) {
             const auto &data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             switch (action) {
                 case GLFW_PRESS: {
@@ -75,7 +73,7 @@ namespace Renderer {
             }
         });
 
-        glfwSetMouseButtonCallback(m_Window.get(), [](GLFWwindow* window, const int button, const int action, const int mods) {
+        glfwSetMouseButtonCallback(m_Handle.get(), [](GLFWwindow* window, const int button, const int action, const int mods) {
             const auto &data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             switch (action) {
                 case GLFW_PRESS: {
@@ -92,13 +90,13 @@ namespace Renderer {
             }
         });
 
-        glfwSetScrollCallback(m_Window.get(), [](GLFWwindow* window, const double xoffset, const double yoffset) {
+        glfwSetScrollCallback(m_Handle.get(), [](GLFWwindow* window, const double xoffset, const double yoffset) {
             const auto& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             MouseScrolledEvent event(static_cast<float>(xoffset), static_cast<float>(yoffset));
             data.eventCallback(event);
         });
 
-        glfwSetCursorPosCallback(m_Window.get(), [](GLFWwindow* window, const double xpos, const double ypos) {
+        glfwSetCursorPosCallback(m_Handle.get(), [](GLFWwindow* window, const double xpos, const double ypos) {
             const auto& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
             MouseMovedEvent event(static_cast<float>(xpos), static_cast<float>(ypos));
             data.eventCallback(event);
