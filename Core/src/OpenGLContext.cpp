@@ -1,14 +1,18 @@
-
 #include <glad/gl.h>
+
 #include "Core/OpenGLContext.hpp"
 
-namespace Renderer {
+namespace Core {
 
     void OpenGLContext::Init() const {
         glfwMakeContextCurrent(m_Handle);
         LOG_DEBUG("Loading GLAD...");
-        ASSERT(gladLoadGL(glfwGetProcAddress), "Failed to load GLAD!");
+        VERIFY(gladLoadGL(glfwGetProcAddress), "Failed to load GLAD!");
         LOG_DEBUG("GLAD initialized!");
+        LOG_INFO("OpenGL: {0} {1} {2}",
+            reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+            reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
+            reinterpret_cast<const char*>(glGetString(GL_VERSION)));
     }
 
     void OpenGLContext::SetWindowHints() {

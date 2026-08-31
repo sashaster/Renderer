@@ -4,7 +4,7 @@
 #include "Core/Events/KeyEvent.hpp"
 #include "Core/Events/MouseEvent.hpp"
 
-namespace Renderer {
+namespace Core {
 
     Window::Window(const std::string_view title,
         const int width,
@@ -16,8 +16,6 @@ namespace Renderer {
     }
 
     void Window::OnUpdate() const {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
         m_Context->SwapBuffers();
     }
@@ -31,7 +29,7 @@ namespace Renderer {
         LOG_INFO("Creating window: {0} {1}x{2}", m_Data.title, m_Data.width, m_Data.height);
         OpenGLContext::SetWindowHints();
         m_Handle.reset(glfwCreateWindow(m_Data.width, m_Data.height, m_Data.title.data(), nullptr, nullptr));
-        ASSERT(m_Handle, "Failed to create GLFW window!");
+        VERIFY(m_Handle, "Failed to create GLFW window!");
         m_Context = std::make_unique<OpenGLContext>(m_Handle.get());
         m_Context->Init();
         glfwSetWindowUserPointer(m_Handle.get(), &m_Data);

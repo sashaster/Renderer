@@ -2,15 +2,17 @@
 
 #include <string_view>
 #include <csignal>
+#include <glad/gl.h>
 
 #include "Core/Log.hpp"
 
-namespace Renderer::Config {
+namespace Core::Config {
 
     constexpr std::string_view WindowTitle = "Renderer";
     constexpr int WindowWidth = 1920;
     constexpr int WindowHeight = 1080;
     constexpr spdlog::level::level_enum LogLevel = spdlog::level::trace;
+    constexpr std::string_view ShaderExtension = ".glsl";
 
 }
 
@@ -41,3 +43,4 @@ namespace Renderer::Config {
     #define ASSERT(condition, ...)
 #endif
 
+#define VERIFY(condition, ...) { if (!(condition)) { LOG_FATAL(__VA_ARGS__); throw std::runtime_error("Fatal error. Check logs for more info.");} }

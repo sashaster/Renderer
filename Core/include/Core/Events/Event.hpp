@@ -5,7 +5,7 @@
 #include "Core/Config.hpp"
 
 
-namespace Renderer {
+namespace Core {
 
     enum class EventType {
         None,

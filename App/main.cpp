@@ -3,14 +3,12 @@
 
 int main() {
     try {
-        Renderer::Log::Init();
-        Renderer::Application app;
+        Core::Log::Init();
+        Core::Application app;
         app.Run();
-
     }catch (...) {
         return -1;
     }
-
     return 0;
 }
 

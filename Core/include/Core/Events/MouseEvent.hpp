@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Events/Event.hpp"
 
-namespace Renderer {
+namespace Core {
 
     class MouseMovedEvent: public Event {
     public:
@@ -59,23 +59,23 @@ namespace Renderer {
 
     class MouseScrolledEvent final: public Event {
     public:
-        MouseScrolledEvent(const float xOffset, const float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
+        MouseScrolledEvent(const float xOffset, const float yOffset) : m_Xoffset(xOffset), m_Yoffset(yOffset) {}
 
         [[nodiscard]] float GetXOffset() const noexcept {
-            return m_XOffset;
+            return m_Xoffset;
         }
 
         [[nodiscard]] float GetYOffset() const noexcept {
-            return m_YOffset;
+            return m_Yoffset;
         }
 
         [[nodiscard]] std::string ToString() const override {
-            return std::format("{0} ({1}, {2})", GetName(), m_XOffset, m_YOffset);
+            return std::format("{0} ({1}, {2})", GetName(), m_Xoffset, m_Yoffset);
         }
 
         EVENT_TYPE(MouseScrolled)
     private:
-        float m_XOffset, m_YOffset;
+        float m_Xoffset, m_Yoffset;
     };
 
 }

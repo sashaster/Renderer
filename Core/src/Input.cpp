@@ -3,7 +3,7 @@
 #include "Core/Input.hpp"
 #include "Core/Application.hpp"
 
-namespace Renderer {
+namespace Core {
 
     bool Input::IsKeyPressed(const int keycode) {
         const auto state = glfwGetKey(Application::Get().GetWindow().GetHandle(), keycode);

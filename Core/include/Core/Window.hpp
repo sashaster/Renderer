@@ -7,9 +7,9 @@
 #include "Core/Events/Event.hpp"
 #include "Core/OpenGLContext.hpp"
 
-namespace Renderer {
+namespace Core {
 
-    class Window {
+    class Window final{
         using EventCallbackFn = std::function<void(Event&)>;
         using WindowHandle = std::unique_ptr<GLFWwindow, decltype([](GLFWwindow* window) {
             if (window) {
@@ -47,10 +47,7 @@ namespace Renderer {
         void SetVsync(bool enabled);
         void OnUpdate() const;
 
-        Window(const Window&) = delete;
-        Window& operator=(const Window&) = delete;
-        Window(Window&&) = delete;
-        Window& operator=(Window&&) = delete;
+        DELETE_COPY_MOVE(Window)
 
     private:
         void Init();

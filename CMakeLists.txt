@@ -25,5 +25,21 @@ else()
 endif()
 
 execute_process(COMMAND ${VENV_PYTHON} -m pip install --quiet jinja2)
+
+file(GLOB_RECURSE RESOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/Resources/*")
+
+#Copy resources to the binary folder
+add_custom_command(
+        OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/copied.stamp"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_SOURCE_DIR}/Resources"
+                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Resources"
+        COMMAND "${CMAKE_COMMAND}" -E touch "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/copied.stamp"
+        DEPENDS ${RESOURCES}
+        COMMENT "Copying resources..."
+)
 add_subdirectory(core)
 add_subdirectory(app)
+
+add_custom_target(copy_resources ALL DEPENDS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/copied.stamp")
+add_dependencies(renderer copy_resources)

@@ -3,7 +3,7 @@
 #include "Core/Events/Event.hpp"
 
 
-namespace Renderer {
+namespace Core {
 
     class KeyEvent: public Event {
     public:

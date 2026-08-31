@@ -1,7 +1,8 @@
 #include <GLFW/glfw3.h>
+
 #include "Core/Events/MouseEvent.hpp"
 
-namespace Renderer {
+namespace Core {
 
     std::string_view MouseButtonEvent::ButtonName(const int button) noexcept{
         switch (button) {

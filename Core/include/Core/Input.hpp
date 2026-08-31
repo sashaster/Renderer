@@ -2,10 +2,10 @@
 #include <utility>
 
 
-namespace Renderer::Input {
+namespace Core::Input {
 
-    bool IsKeyPressed(int keycode);
-    bool IsMouseButtonPressed(int button);
-    std::pair<float, float> GetMousePosition();
+    [[nodiscard]] bool IsKeyPressed(int keycode);
+    [[nodiscard]] bool IsMouseButtonPressed(int button);
+    [[nodiscard]] std::pair<float, float> GetMousePosition();
 
 }

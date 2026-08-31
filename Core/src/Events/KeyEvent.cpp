@@ -1,8 +1,8 @@
-
 #include <GLFW/glfw3.h>
+
 #include "Core/Events/KeyEvent.hpp"
 
-namespace Renderer {
+namespace Core {
 
     std::string_view KeyEvent::KeyName(const int key) noexcept{
         switch (key) {

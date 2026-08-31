@@ -5,12 +5,11 @@
 #include "Core/Events/ApplicationEvent.hpp"
 
 
-namespace Renderer {
+namespace Core {
 
-    class Application {
+    class Application final {
     public:
         Application();
-        ~Application();
 
         [[nodiscard]] static Application& Get() noexcept;
 

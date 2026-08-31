@@ -1,14 +1,16 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
+
 #include "Core/Config.hpp"
 
+namespace Core {
 
-namespace Renderer {
-
-    class OpenGLContext {
+    class OpenGLContext final{
     public:
-        explicit OpenGLContext(GLFWwindow* handle): m_Handle(handle){}
+        explicit OpenGLContext(GLFWwindow* handle): m_Handle(handle) {
+            ASSERT(handle, "Window handle is null!");
+        }
         void Init() const;
         void SwapBuffers() const;
         static void SetWindowHints();

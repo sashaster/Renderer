@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Events/Event.hpp"
 
-namespace Renderer {
+namespace Core {
     class WindowResizeEvent final: public Event {
     public:
         WindowResizeEvent(const int width, const int height) : m_Width(width), m_Height(height) {

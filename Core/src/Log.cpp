@@ -3,7 +3,7 @@
 #include "Core/Log.hpp"
 #include "Core/Config.hpp"
 
-namespace Renderer {
+namespace Core {
 
     void Log::Init() {
         s_Logger = spdlog::stdout_color_mt("RENDERER");
